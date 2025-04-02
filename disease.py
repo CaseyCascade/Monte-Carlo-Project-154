@@ -24,7 +24,7 @@ class Grid:
 
             if random_cell == EMPTY:
                 self.grid[random_row][random_col] = HEALTHY
-                healthy_cells.append([random_row, random_col])
+                healthy_cells.append((random_row, random_col))
 
         for i in range(n_sick):
             random_index = random.randint(0, len(healthy_cells) - 1)
@@ -41,17 +41,39 @@ class Grid:
                 neighbors.append((new_row, new_col))  # or grid[new_row][new_col] if you want values
 
         return neighbors
+    
+    def find(self, target):
+        for row in range(len(self.grid)):
+            for col in range(len(self.grid[row])):
+                if self.grid[row][col] == target:
+                    return (row, col)  # Return as soon as it's found
+        return None  
+
+    def move(self, row, col):
+        neighbors = self.get_orthagonal_neighbors(row, col)
+        if neighbors == None: return 
+
+        neighbors = [cell for cell in neighbors if cell == EMPTY]
+        
+        random_index = random.randint(0, len(neighbors))
+        self.grid[neighbors[random_index][0], neighbors[random_index][1]] = neighbors[row, col]
+        neighbors[row][col] = EMPTY
+
+    def move_agents(self):
+        pass
+
 
     def spread_disease(self):
         pass
 
     def next_turn(self):
-        pass
+        self.move_agents()
+        self.spread_disease()
                     
 
 def main():
-    new_grid = Grid(20)
-    new_grid.fill_grid(20, 1)
+    new_grid = Grid(10)
+    new_grid.fill_grid(5, 1)
     new_grid.print()
     
 
