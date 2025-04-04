@@ -3,8 +3,8 @@ import os
 import time 
 import sys
 
-EMPTY = "- "
-HEALTHY = "\033[32m\u2022\033[0m " # Green Bullet
+EMPTY = "\033[90m- \033[0m"
+HEALTHY = "\u2022 " # Green Bullet
 SICK = "\033[31m\u2022\033[0m " # Red Bullet
 
 def clear_terminal():
@@ -14,7 +14,7 @@ class Grid:
     def __init__(self, size):
         self.cols = size 
         self.rows = size 
-        self.grid = [["- " for _ in range(self.cols)] for _ in range(self.rows)]
+        self.grid = [[EMPTY for _ in range(self.cols)] for _ in range(self.rows)]
 
     def fill_grid(self, n_healthy, n_sick):
         healthy_cells = []
