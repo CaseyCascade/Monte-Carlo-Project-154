@@ -4,8 +4,8 @@ import time
 import sys
 
 EMPTY = "- "
-HEALTHY = "\u2022 "
-SICK = "\033[31m\u2022\033[0m "
+HEALTHY = "\033[32m\u2022\033[0m " # Green Bullet
+SICK = "\033[31m\u2022\033[0m " # Red Bullet
 
 def clear_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')
