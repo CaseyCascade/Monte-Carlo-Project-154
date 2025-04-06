@@ -26,13 +26,17 @@ class Agent:
      
      # False if Dead, True if alive 
     def check_for_recovery(self)->bool:
-        if self.time_infected == 0:
+        if self == SICK and self.time_infected == 0:
             result = random.randint(1, 10)
             if result == 1: 
                 return False
             else:
                 self.symbol = RECOVERED
                 self.time_infected = None 
+                return True 
+        elif self == SICK:
+            self.time_infected -= 1 
+            return True 
 
     def __eq__(self, other):
         if not isinstance(other, str):
@@ -43,7 +47,7 @@ class Grid:
     def __init__(self, size):
         self.cols = size 
         self.rows = size 
-        self.grid = [[EMPTY for _ in range(self.cols)] for _ in range(self.rows)]
+        self.grid:list[Agent] = [[Agent(EMPTY) for _ in range(self.cols)] for _ in range(self.rows)]
 
     def fill_grid(self, n_healthy, n_sick):
         healthy_cells = []
@@ -51,13 +55,13 @@ class Grid:
             empty_cell_positions = self.find_all(EMPTY)
             random_index = random.randint(0, len(empty_cell_positions) - 1)
             random_cell = empty_cell_positions[random_index]
-            self.grid[random_cell[0]][random_cell[1]] = HEALTHY
+            self.grid[random_cell[0]][random_cell[1]] = Agent(HEALTHY)
 
         for i in range(n_sick):
             healthy_cell_positions = self.find_all(HEALTHY)
             random_index = random.randint(0, len(healthy_cell_positions) - 1)
             random_cell = healthy_cell_positions[random_index]
-            self.grid[random_cell[0]][random_cell[1]] = SICK
+            self.grid[random_cell[0]][random_cell[1]].infect()
 
     def get_orthogonal_neighbors(self, row, col)->list[tuple[int,int]]:
         neighbors = []
@@ -94,23 +98,28 @@ class Grid:
 
         # Move the entity
         self.grid[target[0]][target[1]] = self.grid[row][col]
-        self.grid[row][col] = EMPTY
+        self.grid[row][col] = Agent(EMPTY)
 
 
-    def move_agents(self):
+    def move_agents(self, death_rule:bool):
         agent_coords = self.find_all(HEALTHY) + self.find_all(SICK)
         random.shuffle(agent_coords) # Randomizes the order in which agents are allowed to move to avoid having a bias 
         for coord in agent_coords:
             self.move(coord[0], coord[1])
-        self.spread_disease()
+        self.spread_disease(death_rule)
 
-    def spread_disease(self):
+    def spread_disease(self, death_rule:bool):
         sick_agent_coords = self.find_all(SICK)
         for coord in sick_agent_coords:
             neighbors = self.get_orthogonal_neighbors(coord[0], coord[1])
             for neighbor in neighbors:
                 if self.grid[neighbor[0]][neighbor[1]] == HEALTHY:
-                    self.grid[neighbor[0]][neighbor[1]] = SICK
+                    self.grid[neighbor[0]][neighbor[1]].infect()
+            if death_rule and not self.grid[coord[0]][coord[1]].check_for_recovery():
+                self.grid[coord[0]][coord[1]] = Agent(EMPTY)
+            
+                
+            
 
     def visualize(self, turn, playback_delay):
         # Move cursor to top-left only — don't wipe the screen
@@ -118,17 +127,16 @@ class Grid:
         sys.stdout.flush()
 
         # Build the grid string
-        output = '\n'.join(''.join(row) for row in self.grid)
+        output = '\n'.join(''.join(agent.symbol for agent in row) for row in self.grid)
         output += f"\n\nTurn: {turn}"
 
         sys.stdout.write(output)
         sys.stdout.flush()
         time.sleep(playback_delay)
 
-    def run_simulation(self, visualize=False, playback_delay=0.1) -> dict:
+    def run_simulation(self, death_rule=False, visualize=False, playback_delay=0.1) -> dict:
         print("\033[3J\033[H\033[2J")  # Clear scrollback + screen
         print("\033[?25l", end="")     # Hide cursor
-        
         
         turn = 0
         data = {}
@@ -136,7 +144,7 @@ class Grid:
             if visualize:
                 self.visualize(turn, playback_delay)
             previous_num_infected = self.find_all(SICK)
-            self.move_agents()
+            self.move_agents(death_rule)
             new_num_infected = self.find_all(SICK)
             turn += 1
             data[turn] = self.get_data(previous_num_infected, new_num_infected)
@@ -158,7 +166,7 @@ def main():
     # Simulation can handle much larger grid size, but visualizing it becomes ugly if grid size is above 49x49
     new_grid = Grid(20)
     new_grid.fill_grid(240, 1)
-    new_grid.run_simulation(True)
+    new_grid.run_simulation(death_rule=True, visualize=True)
 
     
 
