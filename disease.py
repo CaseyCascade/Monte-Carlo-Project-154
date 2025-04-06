@@ -6,9 +6,38 @@ import sys
 EMPTY = "\033[90m- \033[0m"
 HEALTHY = "\u2022 " # Green Bullet
 SICK = "\033[31m\u2022\033[0m " # Red Bullet
+RECOVERED = "\033[34m\u2022\033[0m "  # Blue Bullet
+
 
 def clear_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+class Agent: 
+    def __init__(self, symbol):
+        self.symbol = symbol 
+        self.time_infected = None
+        if symbol == SICK:
+            self.time_infected = 20
+        
+    def infect(self):
+        if self.symbol == HEALTHY:
+            self.symbol = SICK
+            self.time_infected = 20 
+     
+     # False if Dead, True if alive 
+    def check_for_recovery(self)->bool:
+        if self.time_infected == 0:
+            result = random.randint(1, 10)
+            if result == 1: 
+                return False
+            else:
+                self.symbol = RECOVERED
+                self.time_infected = None 
+
+    def __eq__(self, other):
+        if not isinstance(other, str):
+            return NotImplemented
+        return self.symbol == other
 
 class Grid:
     def __init__(self, size):
@@ -19,18 +48,16 @@ class Grid:
     def fill_grid(self, n_healthy, n_sick):
         healthy_cells = []
         for i in range(n_healthy):
-            random_row = random.randint(0, len(self.grid) - 1)
-            random_col = random.randint(0, len(self.grid[random_row]) - 1)
-            random_cell = self.grid[random_row][random_col]
-
-            if random_cell == EMPTY:
-                self.grid[random_row][random_col] = HEALTHY
-                healthy_cells.append((random_row, random_col))
+            empty_cell_positions = self.find_all(EMPTY)
+            random_index = random.randint(0, len(empty_cell_positions) - 1)
+            random_cell = empty_cell_positions[random_index]
+            self.grid[random_cell[0]][random_cell[1]] = HEALTHY
 
         for i in range(n_sick):
-            random_index = random.randint(0, len(healthy_cells) - 1)
-            chosen_healthy_cell = healthy_cells[random_index]
-            self.grid[chosen_healthy_cell[0]][chosen_healthy_cell[1]] = SICK
+            healthy_cell_positions = self.find_all(HEALTHY)
+            random_index = random.randint(0, len(healthy_cell_positions) - 1)
+            random_cell = healthy_cell_positions[random_index]
+            self.grid[random_cell[0]][random_cell[1]] = SICK
 
     def get_orthogonal_neighbors(self, row, col)->list[tuple[int,int]]:
         neighbors = []
@@ -43,7 +70,7 @@ class Grid:
 
         return neighbors
     
-    def find_all(self, target)->list[tuple[int,int]]: # valid targets are HEALTHY, EMPTY, SICK 
+    def find_all(self, target)->list[tuple[int,int]]: # valid targets are HEALTHY, EMPTY, SICK, RECOVERED
         result = []
         for row in range(len(self.grid)):
             for col in range(len(self.grid[row])):
@@ -98,28 +125,40 @@ class Grid:
         sys.stdout.flush()
         time.sleep(playback_delay)
 
-    def run_simulation(self, visualize=False, playback_delay=0.1):
+    def run_simulation(self, visualize=False, playback_delay=0.1) -> dict:
+        print("\033[3J\033[H\033[2J")  # Clear scrollback + screen
+        print("\033[?25l", end="")     # Hide cursor
+        
+        
         turn = 0
+        data = {}
         while self.find_all(HEALTHY):
             if visualize:
                 self.visualize(turn, playback_delay)
+            previous_num_infected = self.find_all(SICK)
             self.move_agents()
+            new_num_infected = self.find_all(SICK)
             turn += 1
+            data[turn] = self.get_data(previous_num_infected, new_num_infected)
         if visualize:
             self.visualize(turn, playback_delay)
         print("\033[?25h", end="")  # Show cursor again
+        print("\n")
+        return data 
+
+    def get_data(self, prev_num_infected, new_num_infected)->dict:
+        data = {
+            "num_infected_this_step" :  len(new_num_infected) - len(prev_num_infected),
+            "total_num_infected" : len(new_num_infected)
+        }
+        return data 
                     
 
 def main():
-    print("\033[3J\033[H\033[2J")  # Clear scrollback + screen
-    print("\033[?25l", end="")     # Hide cursor
-
     # Simulation can handle much larger grid size, but visualizing it becomes ugly if grid size is above 49x49
     new_grid = Grid(20)
     new_grid.fill_grid(240, 1)
     new_grid.run_simulation(True)
-
-    print("\033[?25h", end="")     # Show cursor again
 
     
 
