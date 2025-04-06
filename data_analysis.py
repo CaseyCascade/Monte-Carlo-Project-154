@@ -47,7 +47,7 @@ def main():
     new_grid = Grid(20)
     new_grid.fill_grid(240, 1)
     #pprint(new_grid.run_simulation(True))
-    run_n_times(1000, death_rule=True)
+    run_n_times(1000, death_rule=False)
 
 
 if __name__ == "__main__":
