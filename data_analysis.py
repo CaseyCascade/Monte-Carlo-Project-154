@@ -2,7 +2,8 @@ from pprint import pprint
 from disease import Grid, HEALTHY, SICK, EMPTY
 
 
-def run_n_times(n:int):
+
+def run_n_times(n:int, death_rule:bool):
     data = {}
     turns_to_finish = {}
 
@@ -10,7 +11,7 @@ def run_n_times(n:int):
     for i in range(n):
         sim = Grid(20)
         sim.fill_grid(240, 1)
-        instance_data = sim.run_simulation(False)
+        instance_data = sim.run_simulation(visualize=False, death_rule=death_rule)
 
         # Add up amount of turns to finish each simulation run 
         if not len(instance_data) in turns_to_finish:
@@ -46,10 +47,8 @@ def main():
     new_grid = Grid(20)
     new_grid.fill_grid(240, 1)
     #pprint(new_grid.run_simulation(True))
-    run_n_times(1000)
+    run_n_times(1000, death_rule=True)
 
-
-    
 
 if __name__ == "__main__":
     main()

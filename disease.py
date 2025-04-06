@@ -134,7 +134,7 @@ class Grid:
         sys.stdout.flush()
         time.sleep(playback_delay)
 
-    def run_simulation(self, death_rule=False, visualize=False, playback_delay=0.1) -> dict:
+    def run_simulation(self, death_rule:bool=False, visualize:bool=False, playback_delay:float=0.1) -> dict:
         print("\033[3J\033[H\033[2J")  # Clear scrollback + screen
         print("\033[?25l", end="")     # Hide cursor
         
@@ -154,7 +154,7 @@ class Grid:
         print("\n")
         return data 
 
-    def get_data(self, prev_num_infected, new_num_infected)->dict:
+    def get_data(self, prev_num_infected, new_num_infected)->dict: #TODO Needs to be updated for the death_rule as well as any other future policies 
         data = {
             "num_infected_this_step" :  len(new_num_infected) - len(prev_num_infected),
             "total_num_infected" : len(new_num_infected)
