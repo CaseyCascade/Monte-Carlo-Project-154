@@ -29,7 +29,7 @@ def run_n_times(n:int, death_rule:bool):
             data[turn]["average_total_infected"] += instance_data[turn]["total_num_infected"]
 
     # Average across all runs per time step 
-    for turn in data:
+    for turn in data: #FIXME This needs to be changed so that we do not calculate "average_total_infected" for simulations that have already ended
         data[turn]["average_infected_this_step"] /= n
         data[turn]["average_total_infected"] /= n
 
@@ -38,17 +38,13 @@ def run_n_times(n:int, death_rule:bool):
 
     # Histogram of runs and how many turns it took for them to finish 
     pprint(turns_to_finish)
-            
-            
-
 
 def main():
-    # Simulation can handle much larger grid size, but visualizing it becomes ugly if grid size is above 49x49
+    # Simulation can handle much larger grid size, but visualizing it becomes ugly if grid size is larger than the viewport can render at once
     new_grid = Grid(20)
     new_grid.fill_grid(240, 1)
     #pprint(new_grid.run_simulation(True))
     run_n_times(1000, death_rule=False)
-
 
 if __name__ == "__main__":
     main()
