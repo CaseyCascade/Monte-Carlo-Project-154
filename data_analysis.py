@@ -1,10 +1,14 @@
 from pprint import pprint
 from disease import Grid 
+import json 
 
 GRID_SIZE = 20
 NUM_AGENTS = 240
 
-def run_n_times(n: int, percentage:bool = True):
+ACTUAL_DATA_PATH = "actual_data.json"
+PERCENTAGE_DATA_PATH = "percentage_data.json"
+
+def run_n_times(n: int):
     data = {}
     turn_counts = {}  # Track how many simulations reached each timestep
 
@@ -32,16 +36,25 @@ def run_n_times(n: int, percentage:bool = True):
         data[turn]["average_infected_this_step"] /= turn_counts[turn]
         data[turn]["average_total_infected"] /= turn_counts[turn]
 
-        # If percentage, show the ratio of infected agents compared to the amount we started with, otherwise show the average number of agents
-        if percentage: 
-            data[turn]["average_infected_this_step"] /= NUM_AGENTS 
-            data[turn]["average_total_infected"] /= NUM_AGENTS 
+    # Save Actual Data to JSON
+    with open(ACTUAL_DATA_PATH, "w") as json_file:
+        json.dump(data, json_file, indent=4)
 
-    # Print results
-    pprint(data)
+    for turn in data:
+        # If percentage, show the ratio of infected agents compared to the amount we started with, otherwise show the average number of agents
+        data[turn]["average_infected_this_step"] /= NUM_AGENTS 
+        data[turn]["average_total_infected"] /= NUM_AGENTS 
+        data[turn]["average_infected_this_step"] *= 100
+        data[turn]["average_total_infected"] *= 100
+
+    # Save Percentage Data to JSON
+    with open(PERCENTAGE_DATA_PATH, "w") as json_file:
+        json.dump(data, json_file, indent=4)
+
+    
 
 def main():
-    run_n_times(100, percentage=False)
+    run_n_times(100)
 
 if __name__ == "__main__":
     main()
