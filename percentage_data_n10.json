@@ -1,0 +1,122 @@
+{
+    "0": {
+        "average_infected_this_step": 0.0,
+        "average_total_infected": 0.04166666666666667
+    },
+    "1": {
+        "average_infected_this_step": 0.8333333333333334,
+        "average_total_infected": 1.25
+    },
+    "2": {
+        "average_infected_this_step": 1.7500000000000002,
+        "average_total_infected": 3.0000000000000004
+    },
+    "3": {
+        "average_infected_this_step": 2.4583333333333335,
+        "average_total_infected": 5.458333333333333
+    },
+    "4": {
+        "average_infected_this_step": 3.166666666666666,
+        "average_total_infected": 8.625
+    },
+    "5": {
+        "average_infected_this_step": 3.4583333333333335,
+        "average_total_infected": 12.083333333333334
+    },
+    "6": {
+        "average_infected_this_step": 4.75,
+        "average_total_infected": 16.833333333333332
+    },
+    "7": {
+        "average_infected_this_step": 5.666666666666666,
+        "average_total_infected": 22.5
+    },
+    "8": {
+        "average_infected_this_step": 6.5,
+        "average_total_infected": 28.999999999999996
+    },
+    "9": {
+        "average_infected_this_step": 6.749999999999999,
+        "average_total_infected": 35.75
+    },
+    "10": {
+        "average_infected_this_step": 6.458333333333334,
+        "average_total_infected": 42.20833333333333
+    },
+    "11": {
+        "average_infected_this_step": 6.333333333333332,
+        "average_total_infected": 48.541666666666664
+    },
+    "12": {
+        "average_infected_this_step": 6.5,
+        "average_total_infected": 55.041666666666664
+    },
+    "13": {
+        "average_infected_this_step": 6.625,
+        "average_total_infected": 61.66666666666667
+    },
+    "14": {
+        "average_infected_this_step": 5.833333333333333,
+        "average_total_infected": 67.5
+    },
+    "15": {
+        "average_infected_this_step": 5.291666666666666,
+        "average_total_infected": 72.79166666666667
+    },
+    "16": {
+        "average_infected_this_step": 4.583333333333333,
+        "average_total_infected": 77.375
+    },
+    "17": {
+        "average_infected_this_step": 4.212962962962963,
+        "average_total_infected": 79.07407407407408
+    },
+    "18": {
+        "average_infected_this_step": 5.052083333333333,
+        "average_total_infected": 81.51041666666666
+    },
+    "19": {
+        "average_infected_this_step": 5.2976190476190474,
+        "average_total_infected": 84.16666666666667
+    },
+    "20": {
+        "average_infected_this_step": 4.226190476190475,
+        "average_total_infected": 88.39285714285714
+    },
+    "21": {
+        "average_infected_this_step": 3.958333333333333,
+        "average_total_infected": 90.41666666666667
+    },
+    "22": {
+        "average_infected_this_step": 3.819444444444444,
+        "average_total_infected": 94.23611111111111
+    },
+    "23": {
+        "average_infected_this_step": 2.75,
+        "average_total_infected": 95.83333333333334
+    },
+    "24": {
+        "average_infected_this_step": 2.0,
+        "average_total_infected": 97.83333333333334
+    },
+    "25": {
+        "average_infected_this_step": 1.8055555555555554,
+        "average_total_infected": 98.19444444444444
+    },
+    "26": {
+        "average_infected_this_step": 1.111111111111111,
+        "average_total_infected": 99.30555555555556
+    },
+    "27": {
+        "average_infected_this_step": 0.4166666666666667,
+        "average_total_infected": 99.375
+    },
+    "28": {
+        "average_infected_this_step": 0.4166666666666667,
+        "average_total_infected": 99.79166666666667
+    },
+    "29": {
+        "average_infected_this_step": 0.4166666666666667,
+        "average_total_infected": 100.0
+    }
+}

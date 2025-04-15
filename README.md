@@ -1,6 +1,6 @@
 # Simulation-Project-154
-Run disease.py for a visualized demo
-data_analysis.py is where we will create functions to collect data from running the simulation. Results are stored in accompanying JSON files 
+Run disease.py in terminal for a visualized demo
+data_analysis.py is where we will create functions to collect data from running the simulation. Results are stored in accompanying JSON files and graphs are created as pngs
 
 ### actual_data.json
 Data from running the simulation in terms of actual number of agents infected on average across all runs / total number of agents in the simulation
