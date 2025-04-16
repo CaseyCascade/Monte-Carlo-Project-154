@@ -165,7 +165,7 @@ def main():
     # Simulation can handle much larger grid size, but visualizing it becomes ugly if grid size is above 49x49
     new_grid = Grid(20)
     new_grid.fill_grid(240, 1)
-    new_grid.run_simulation(death_rule=True, visualize=True)
+    new_grid.run_simulation(death_rule=False, visualize=True)
 
     
 
