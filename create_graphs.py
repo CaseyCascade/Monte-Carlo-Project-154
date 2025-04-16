@@ -1,5 +1,4 @@
 import json
-from data_analysis import PERCENTAGE_DATA_PATH_N10, PERCENTAGE_DATA_PATH_N1000
 import matplotlib.pyplot as plt
 
 def create_graph(path:str, img_name:str): # Full disclosure, Chat GPT wrote this function 
@@ -29,11 +28,3 @@ def create_graph(path:str, img_name:str): # Full disclosure, Chat GPT wrote this
     # Save to image instead of showing it
     plt.savefig(img_name)
     print("Graph saved as " + img_name)
-
-
-def main():
-    create_graph(PERCENTAGE_DATA_PATH_N10, "n10_graph.png")
-    create_graph(PERCENTAGE_DATA_PATH_N1000, "n1k_graph.png")
-
-if __name__ == "__main__":
-    main()
