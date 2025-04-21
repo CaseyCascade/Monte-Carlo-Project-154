@@ -29,7 +29,7 @@ def run_n_times(n: int):
 
     data[0] = {
     "average_infected_this_step": 0,
-    "average_total_infected": 1
+    "average_total_infected": n
     }
 
     turn_counts[0] = n  # All simulations start with the same initial state
