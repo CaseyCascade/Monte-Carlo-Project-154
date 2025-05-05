@@ -48,6 +48,8 @@ class Grid:
         self.cols = size 
         self.rows = size 
         self.grid:list[Agent] = [[Agent(EMPTY) for _ in range(self.cols)] for _ in range(self.rows)]
+        self.start_pos = None 
+        self.turns_lasted = None
 
     def fill_grid(self, n_healthy, n_sick):
         healthy_cells = []
@@ -62,6 +64,7 @@ class Grid:
             random_index = random.randint(0, len(healthy_cell_positions) - 1)
             random_cell = healthy_cell_positions[random_index]
             self.grid[random_cell[0]][random_cell[1]].infect()
+            self.start_pos = (random_cell[0], random_cell[1])
 
     def get_orthogonal_neighbors(self, row, col)->list[tuple[int,int]]:
         neighbors = []
@@ -73,6 +76,10 @@ class Grid:
                 neighbors.append((new_row, new_col))  # or grid[new_row][new_col] if you want values
 
         return neighbors
+    
+    def get_turns_lasted(self):
+        if self.turns_lasted:
+            return self.turns_lasted
     
     def find_all(self, target)->list[tuple[int,int]]: # valid targets are HEALTHY, EMPTY, SICK, RECOVERED
         result = []
@@ -151,6 +158,7 @@ class Grid:
             self.visualize(turn, playback_delay)
             print("\033[?25h", end="")  # Show cursor again
             print("\n")
+        self.turns_lasted = turn
         return data 
 
     def get_data(self, prev_num_infected, new_num_infected)->dict: #TODO Needs to be updated for the death_rule as well as any other future policies 
@@ -159,6 +167,9 @@ class Grid:
             "total_num_infected" : len(new_num_infected)
         }
         return data 
+    
+    def get_start_pos(self):
+        return self.start_pos
                     
 
 def main():
