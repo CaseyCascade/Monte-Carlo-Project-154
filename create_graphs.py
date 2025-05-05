@@ -86,8 +86,8 @@ def create_heatmap(path: str, img_name: str):
     transparent_blues = ListedColormap(blues_rgba)
 
     # Use with vmin=0, vmax=6
-    low_plot = ax.imshow(low_grid.T, cmap=transparent_reds, interpolation='nearest', vmin=vmin, vmax=vmax)
-    high_plot = ax.imshow(high_grid.T, cmap=transparent_blues, interpolation='nearest', vmin=vmin, vmax=vmax)
+    low_plot = ax.imshow(low_grid.T, alpha=0.8, cmap=transparent_reds, interpolation='nearest', vmin=vmin, vmax=vmax)
+    high_plot = ax.imshow(high_grid.T, alpha=0.8, cmap=transparent_blues, interpolation='nearest', vmin=vmin, vmax=vmax)
 
     # Low threshold colorbar (Red) – close to the plot
     cbar_low = plt.colorbar(low_plot, ax=ax, fraction=0.046, pad=0.2, orientation='vertical')
