@@ -1,5 +1,8 @@
 # Simulation-Project-154
 
+## /src
+Contains source code and data collected from simulation 
+
 ### disease.py
 Run disease.py in terminal for a visualized demo representing 1 run of the simulation. 
 
@@ -12,3 +15,6 @@ One represents 1000 runs and the other represent 10 runs
 
 #### n1k_graph.png & n10_graph.png
 Graphs representing the data from the json files above
+
+## Submissions
+Contains a pptx file for presentation slides and a pdf for the project report 
